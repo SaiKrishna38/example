@@ -1,10 +1,23 @@
-variable "aws_region" {}
-variable "databricks_external_id" {}
+variable "aws_region" {
+    description = "The AWS region where resources will be created."
+    type        = string
+    default     = "us-east-1"
+}
+variable "databricks_external_id" {
+    description = "External ID provided by Databricks for the cross-account IAM role."
+    type        = string
+    sensitive   = true
+}
 variable "unity_catalog_external_id" {
-  default = null
+    description = "External ID required for Unity Catalog IAM role assumption."
+    type        = string
+    sensitive   = true
+    default     = ""
 }
 variable "enable_unity_catalog" {
-  default = false
+    description = "Whether to provision Unity Catalog resources."
+    type        = bool
+    default = false
 }
 variable "app_id" {
   description = "Application ID for cost monitoring and tagging (e.g. APP-12345)."

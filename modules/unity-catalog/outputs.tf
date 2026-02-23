@@ -15,5 +15,5 @@ output "bucket_arn" {
 
 output "role_name" {
   description = "Name of the Unity Catalog IAM role."
-  value       = aws_iam_role.unity_catalog_role
+  value       = aws_iam_role.unity_catalog_role.name
 }

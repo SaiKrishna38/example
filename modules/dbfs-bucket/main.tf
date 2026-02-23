@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "dbfs_root" {
 
   force_destroy = false
   tags = merge(var.tags, {
-    Name    =  aws_s3_bucket.dbfs_root.bucket
+    Name    =  "databricks-root-storage-${var.account_id}-${var.region}"
     Purpose = "DatabricksDBFS"
   })
 }
@@ -37,6 +37,7 @@ resource "aws_s3_bucket_public_access_block" "block" {
 # Bucket policy: allow Databricks EC2 instances (via cross-account role) to read/write
 resource "aws_s3_bucket_policy" "dbfs" {
   bucket = aws_s3_bucket.dbfs_root.id
+  depends_on = [aws_s3_bucket_public_access_block.block]
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
