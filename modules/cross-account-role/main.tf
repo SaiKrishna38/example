@@ -16,4 +16,8 @@ resource "aws_iam_role" "databricks_cross_account" {
       }
     }]
   })
+  tags = merge(var.tags, {
+    Name    = var.role_name
+    Purpose = "DatabricksCrossAccount"
+  }) 
 }

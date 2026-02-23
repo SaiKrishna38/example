@@ -9,10 +9,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "dg-terraform-state-mybricks-2024"
+    bucket         = "terraform-state-mybricks-2025"
     key            = "databricks/aws-prereqs.tfstate"
-    region         = "ap-south-1"
+    region         = "us-east-1"
     dynamodb_table = "terraform-lock"
+    profile        = "DG4-Developer-065317679010"
     encrypt        = true
   }
 }
