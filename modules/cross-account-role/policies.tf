@@ -1,4 +1,5 @@
 resource "aws_iam_role_policy" "databricks_policy" {
+  name = "${var.role_name}-policy"
   role = aws_iam_role.databricks_cross_account.id
   policy = templatefile("${path.module}/databricks-policy.json", {
     dbfs_bucket_name = var.dbfs_bucket_name

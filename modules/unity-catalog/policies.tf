@@ -1,4 +1,5 @@
 resource "aws_iam_role_policy" "unity_catalog_s3_access" {
+  name = "${var.unity_catalog_role_name}-s3-policy"
   role = aws_iam_role.unity_catalog_role.id
 
   policy = jsonencode({
@@ -27,6 +28,7 @@ resource "aws_iam_role_policy" "unity_catalog_s3_access" {
 
 resource "aws_s3_bucket_policy" "unity_catalog" {
   bucket = aws_s3_bucket.unity_catalog.id
+  depends_on = [aws_s3_bucket_public_access_block.unity_catalog]
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -65,7 +67,21 @@ resource "aws_iam_role" "unity_catalog_role" {
           "sts:ExternalId" = var.unity_catalog_external_id
         }
       }
-    }]
+    },
+      {
+        Sid    = "SelfAssumeRole"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${var.account_id}:role/${var.unity_catalog_role_name}"
+        }
+        Action = "sts:AssumeRole"
+        Condition = {
+          StringEquals = {
+            "sts:ExternalId" = var.unity_catalog_external_id
+          }
+        }
+      }
+    ]
   })
   tags = merge(var.tags, {
     Name    = var.unity_catalog_role_name

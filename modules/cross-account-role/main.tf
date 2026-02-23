@@ -1,5 +1,5 @@
 resource "aws_iam_role" "databricks_cross_account" {
-  name = "databricks-cross-account-role"
+  name = var.role_name
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

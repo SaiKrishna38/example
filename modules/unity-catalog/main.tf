@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "unity_catalog" {
   bucket = "unity-catalog-metastore-${var.account_id}-${var.region}"
   tags = merge(var.tags, {
-    Name    = aws_s3_bucket.unity_catalog.bucket
+    Name    = "unity-catalog-metastore-${var.account_id}-${var.region}"
     Purpose = "DatabricksUnityCatalog"
   })
 }
